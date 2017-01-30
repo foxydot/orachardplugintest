@@ -33,9 +33,11 @@ wp-content/*
 # specify (see the commented-out examples for hints on how to do this.)
 assets/plugins/*
 !assets/plugins/msd-custom-cpt
+!assets/plugins/msd-custom-roles
 # !assets/plugins/my-directory-plugin/
 wp-content/plugins/*
 !wp-content/plugins/msd-custom-cpt
+!wp-content/plugins/msd-custom-roles
 # !wp-content/plugins/my-directory-plugin/
 
 # Ignore everything in the "themes" directory, except the themes you
