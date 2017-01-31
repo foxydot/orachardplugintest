@@ -7,6 +7,12 @@ Version: 0.2
 Author URI: http://msdlab.com
 */
 
+function load_wp_media_files() {
+	wp_enqueue_media();
+	wp_enqueue_script('media-upload');
+}
+add_action( 'admin_enqueue_scripts', 'load_wp_media_files' );
+
 if(!class_exists('WPAlchemy_MetaBox')){
 	include_once (plugin_dir_path(__FILE__).'lib/wpalchemy/MetaBox.php');
 }
