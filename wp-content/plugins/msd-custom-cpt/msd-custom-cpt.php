@@ -7,12 +7,6 @@ Version: 0.2
 Author URI: http://msdlab.com
 */
 
-function load_wp_media_files() {
-	wp_enqueue_media();
-	wp_enqueue_script('media-upload');
-}
-add_action( 'admin_enqueue_scripts', 'load_wp_media_files' );
-
 if(!class_exists('WPAlchemy_MetaBox')){
 	include_once (plugin_dir_path(__FILE__).'lib/wpalchemy/MetaBox.php');
 }
@@ -114,8 +108,24 @@ if (!class_exists('MSDCustomCPT')) {
             }
             register_activation_hook( __FILE__, create_function('','flush_rewrite_rules();') );
             register_deactivation_hook( __FILE__, create_function('','flush_rewrite_rules();') );
+		
+            if(is_admin()){
+                add_filter('attachment_fields_to_edit', array($this,'force_attachment_file_url'), 10, 2);
+		add_action('admin_enqueue_scripts', array($this,'load_wp_media_files'));
+            }
         }
 
+	function force_attachment_file_url($form_fields, $post) {
+		// force the Link URL to use the file URL
+		$form_fields['url']['html'] = image_link_input_fields($post, 'file');
+		return $form_fields;
+	}
+				
+	function load_wp_media_files() {
+		wp_enqueue_media();
+		wp_enqueue_script('media-upload');
+	}
+	    
         /**
          * @desc Loads the options. Responsible for handling upgrades and default option values.
          * @return array
